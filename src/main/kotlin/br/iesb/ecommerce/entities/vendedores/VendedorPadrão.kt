@@ -1,21 +1,22 @@
 package br.iesb.ecommerce.entities.vendedores
 
-import br.iesb.ecommerce.entities.produtos.ProdutoVendedor
 import br.iesb.ecommerce.entities.produtos.ProdutoVendedorInterface
 import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.exceptions.InvalidValueException
+import br.iesb.ecommerce.util.timeFormat.TimeFormatInterface
 import java.util.UUID
-import java.time.LocalDateTime
-import br.iesb.ecommerce.util.timeFormat.dtf
+
 
 
 class VendedorPadrão(
     private var nome: String,
     private var sobre: String,
-    private var email: String
+    private var email: String,
+    private var telefone: Int,
+    timeFormat: TimeFormatInterface
 ): VendedorInterface {
     private val id = UUID.randomUUID().toString()
-    private val dataCadastro = dtf.format(LocalDateTime.now())
+    private val dataCadastro = timeFormat.obterDataHoraAtual()
     private var listaProdutos = mutableListOf<ProdutoVendedorInterface>()
     private var qtdProdutosVendidos = 0
     private var classificacao = 0.0f
@@ -51,9 +52,8 @@ class VendedorPadrão(
 
     override fun venderProduto(produto: ProdutoVendedorInterface, qtd: Int) {
         if(existeProduto(produto)){
-            val produtoExistente = obterProduto(produto)
-
-            produtoExistente.venderProduto(qtd)
+            listaProdutos.elementAt(obterIndexProduto(produto))
+                    .venderProduto(qtd)
             qtdProdutosVendidos++
         }
         else
@@ -62,9 +62,8 @@ class VendedorPadrão(
 
     override fun extornarProduto(produto: ProdutoVendedorInterface, qtd: Int){
         if(existeProduto(produto)){
-            val produtoExistente = obterProduto(produto)
-
-            produtoExistente.extornoProduto(qtd)
+            listaProdutos.elementAt(obterIndexProduto(produto))
+                    .extornoProduto(qtd)
             qtdProdutosVendidos--
         }
         else
@@ -91,15 +90,6 @@ class VendedorPadrão(
         }
         else
             throw InvalidValueException("Valor menor que 0 e maior que 5")
-    }
-
-    override fun obterProduto(produto: ProdutoVendedorInterface): ProdutoVendedorInterface{
-        for(x in listaProdutos){
-            if(produto.obterNome() == x.obterNome()){
-                return x
-            }
-        }
-        return ProdutoVendedor("Objeto Nulo", mutableListOf())
     }
 
 

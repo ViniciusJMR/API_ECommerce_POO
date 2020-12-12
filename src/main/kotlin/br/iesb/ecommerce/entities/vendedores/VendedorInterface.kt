@@ -6,7 +6,6 @@ interface VendedorInterface {
     fun obterNome(): String
     fun obterId(): String
     fun obterLista(): MutableList<ProdutoVendedorInterface>
-    fun obterProduto(produto: ProdutoVendedorInterface): ProdutoVendedorInterface
 
     fun alterarInformacoes(nome: String,
                            sobre: String,
