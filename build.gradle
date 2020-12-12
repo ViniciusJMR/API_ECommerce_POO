@@ -28,5 +28,5 @@ compileKotlin {
 group 'br.iesb.ecommerce'
 version '0.1-PREALPHA'
 
-mainClassName = 'br.iesb.ecommerce.ServerKt'
+mainClassName = "br.iesb.ecommerce.ServerKt"
 

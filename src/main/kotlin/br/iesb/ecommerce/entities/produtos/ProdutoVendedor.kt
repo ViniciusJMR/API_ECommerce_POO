@@ -5,8 +5,10 @@ import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.exceptions.InvalidValueException
 import br.iesb.ecommerce.services.frete.FreteInterface
 import br.iesb.ecommerce.services.frete.FretePadrão
+import java.util.*
 
 class ProdutoVendedor(
+        idVendedor: String,
     private var nome: String,
     private var listaCaracteristicas: MutableList<String>,
     private var descricao: String,
@@ -14,14 +16,14 @@ class ProdutoVendedor(
     private var qtdEstoque: Int,
     private var freteDisponivel: FreteInterface
 ): ProdutoVendedorInterface{
-    //private val id = 0 // A definir funcionamento
+    private val idProduto = idVendedor +"-"+ UUID.randomUUID().toString()
     private var classificacao = 0.0f
     private var qtdClassificacao = 0
     private var qtdVendidas = 0
 
     //construtor apenas para pesquisa e alterar caracteristicas
     constructor(nome:String, listaCaracteristicas: MutableList<String>)
-            : this(nome,
+            : this("",nome,
             listaCaracteristicas,
             "",
             0.0,
@@ -30,6 +32,21 @@ class ProdutoVendedor(
     )
 
     override fun obterNome() = nome
+    override fun obterId() = idProduto
+
+    override fun alterarInformacoes(nome: String,
+                                listaCaracteristicas: MutableList<String>,
+                                descricao: String,
+                                valor: Double,
+                                qtdEstoque: Int,
+                                freteDisponivel: FreteInterface) {
+        this.nome = nome
+        this.listaCaracteristicas = listaCaracteristicas
+        this.descricao = descricao
+        this.valor = valor
+        this.qtdEstoque = qtdEstoque
+        this.freteDisponivel = freteDisponivel
+    }
 
     override fun addCaracteristica(novaCaracteristica: String){
         if(!listaCaracteristicas.contains(novaCaracteristica))
@@ -67,7 +84,7 @@ class ProdutoVendedor(
         if(novaClassificacao >= 0.0f || novaClassificacao <= 5.0f)
         {
             classificacao.times(qtdClassificacao)
-            qtdClassificacao.plus(1)
+            qtdClassificacao.plus(1.0f)
             classificacao.plus(novaClassificacao).div(qtdClassificacao)
         }
         else

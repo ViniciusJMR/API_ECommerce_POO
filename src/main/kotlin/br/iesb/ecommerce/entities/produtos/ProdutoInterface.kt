@@ -4,9 +4,17 @@ import br.iesb.ecommerce.services.frete.FreteInterface
 
 interface ProdutoInterface {
     fun obterNome(): String
+    fun obterId(): String
 }
 
 interface ProdutoVendedorInterface: ProdutoInterface {
+    fun alterarInformacoes(nome: String,
+                           listaCaracteristicas: MutableList<String>,
+                           descricao: String,
+                           valor: Double,
+                           qtdEstoque: Int,
+                           freteDisponivel: FreteInterface)
+
     fun addCaracteristica(novaCaracteristica: String)
     fun removeCaracteristica(caracteristica: String)
     fun addEstoque(qtd: Int)
