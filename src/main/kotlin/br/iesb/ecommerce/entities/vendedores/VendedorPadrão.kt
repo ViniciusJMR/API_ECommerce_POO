@@ -3,6 +3,7 @@ package br.iesb.ecommerce.entities.vendedores
 import br.iesb.ecommerce.entities.produtos.ProdutoVendedorInterface
 import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.exceptions.InvalidValueException
+import br.iesb.ecommerce.util.key.IdGeneratorInterface
 import br.iesb.ecommerce.util.timeFormat.TimeFormatInterface
 import java.util.UUID
 
@@ -13,9 +14,10 @@ class VendedorPadrão(
     private var sobre: String,
     private var email: String,
     private var telefone: Int,
-    timeFormat: TimeFormatInterface
+    timeFormat: TimeFormatInterface,
+    idGenerator: IdGeneratorInterface,
 ): VendedorInterface {
-    private val id = UUID.randomUUID().toString()
+    private val id = idGenerator.gerarId()
     private val dataCadastro = timeFormat.obterDataHoraAtual()
     private var listaProdutos = mutableListOf<ProdutoVendedorInterface>()
     private var qtdProdutosVendidos = 0

@@ -8,7 +8,7 @@ interface ProdutoInterface {
 }
 
 interface ProdutoVendedorInterface: ProdutoInterface {
-    fun alterarInformacoes(nome: String,
+    fun atualizarInformacoes(nome: String,
                            listaCaracteristicas: MutableList<String>,
                            descricao: String,
                            valor: Double,

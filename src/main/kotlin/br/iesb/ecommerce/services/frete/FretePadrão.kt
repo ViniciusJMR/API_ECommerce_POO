@@ -9,6 +9,8 @@ class FretePadrão(
     override val valorProduto = valor
     override val endereco = enderecoInicial
 
+    constructor(): this("", 0.0f, "")
+
     override fun calcularFrete(): Float {
         return valorProduto.times(5.0f).div(100f)
     }

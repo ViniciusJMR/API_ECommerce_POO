@@ -5,18 +5,21 @@ import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.exceptions.InvalidValueException
 import br.iesb.ecommerce.services.frete.FreteInterface
 import br.iesb.ecommerce.services.frete.FretePadrão
+import br.iesb.ecommerce.util.key.IdGeneratorInterface
+import br.iesb.ecommerce.util.key.UUIDGenerator
 import java.util.*
 
 class ProdutoVendedor(
         idVendedor: String,
-    private var nome: String,
-    private var listaCaracteristicas: MutableList<String>,
-    private var descricao: String,
-    private var valor: Double,
-    private var qtdEstoque: Int,
-    private var freteDisponivel: FreteInterface
+        private var nome: String,
+        private var listaCaracteristicas: MutableList<String>,
+        private var descricao: String,
+        private var valor: Double,
+        private var qtdEstoque: Int,
+        private var freteDisponivel: FreteInterface,
+        idGenerator: IdGeneratorInterface
 ): ProdutoVendedorInterface{
-    private val idProduto = idVendedor +"-"+ UUID.randomUUID().toString()
+    private val idProduto = idGenerator.gerarId(idVendedor)
     private var classificacao = 0.0f
     private var qtdClassificacao = 0
     private var qtdVendidas = 0
@@ -28,13 +31,14 @@ class ProdutoVendedor(
             "",
             0.0,
             0,
-            FretePadrão("",0.0f, "")
+            FretePadrão(),
+            UUIDGenerator()
     )
 
     override fun obterNome() = nome
     override fun obterId() = idProduto
 
-    override fun alterarInformacoes(nome: String,
+    override fun atualizarInformacoes(nome: String,
                                 listaCaracteristicas: MutableList<String>,
                                 descricao: String,
                                 valor: Double,
