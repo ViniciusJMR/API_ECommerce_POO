@@ -8,59 +8,47 @@ class CategoriaPadrao(
         idGenerator: IdGeneratorInterface
 ): CategoriaInterface{
     private val id = idGenerator.gerarId()
-    private var subCategorias = mutableListOf<SubCategoriaInterface>()
+    private var produtos = mutableListOf<String>()
 
     override fun obterId() = id
     override fun obterNome() = nome
-    override fun obterSubCategorias() = subCategorias
+    override fun obterProdutos() = produtos
 
-    override fun atualizarSubCategoria(subCategoriaAtualizada: SubCategoriaInterface) {
-        if(existeSubCategoria(subCategoriaAtualizada)){
-            val x = obterSubCategoria(subCategoriaAtualizada)
+    override fun atualizarCategoria(CategoriaAtualizada: CategoriaInterface) {
+        nome = CategoriaAtualizada.obterNome()
+        produtos = CategoriaAtualizada.obterProdutos()
+    }
 
-            x.atualizarCategoria(subCategoriaAtualizada)
+    override fun addProduto(idProduto: String){
+        if(!produtos.contains(idProduto)){
+            produtos.add(idProduto)
         }
         else
-            throw ExistsException("SubCategoria não cadastrada em Categoria: $nome")
+            throw ExistsException("Produto já cadastrado em Categoria: $nome")
     }
 
-    override fun atualizarCategoria(categoriaAtualizada: CategoriaInterface) {
-        nome = categoriaAtualizada.obterNome()
-    }
-
-    override fun addSubCategoria(novaSubCategoria: SubCategoriaInterface) {
-        if(!existeSubCategoria(novaSubCategoria)){
-            subCategorias.add(novaSubCategoria)
+    override fun addProduto(idProdutos: MutableList<String>){
+        if(!produtos.containsAll(idProdutos)){
+            produtos.addAll(idProdutos)
         }
         else
-            throw ExistsException("SubCategoria já cadastrada em Categoria: $nome")
+            throw ExistsException("Pelo menos um produto já cadastrado em Categoria: $nome")
     }
 
-    override fun removerSubCategoria(subCategoria: SubCategoriaInterface) {
-        if(existeSubCategoria(subCategoria)){
-            subCategorias.remove(obterSubCategoria(subCategoria))
+    override fun removerProduto(idProduto: String){
+        if(produtos.contains(idProduto)){
+            produtos.remove(idProduto)
         }
         else
-            throw ExistsException("SubCategoria não cadastrada em Categoria: $nome")
+            throw ExistsException("Produto não cadastrado em Categoria: $nome")
     }
 
-    override fun obterSubCategoria(subCategoria: SubCategoriaInterface): SubCategoriaInterface{
-        for(x in subCategorias){
-            if(subCategoria.obterNome() == x.obterNome()){
-                return x
-            }
+    override fun removerProduto(idProdutos: MutableList<String>) {
+        if(produtos.containsAll(idProdutos)){
+            produtos.removeAll(idProdutos)
         }
-
-        return SubCategoriaPadrao()
-    }
-
-    private fun existeSubCategoria(subCategoria: SubCategoriaInterface): Boolean{
-        for(x in subCategorias){
-            if(subCategoria.obterNome() == x.obterNome()){
-                return true
-            }
-        }
-        return false
+        else
+            throw ExistsException("Produto não cadastrado em Categoria: $nome")
     }
 
 }

@@ -2,12 +2,14 @@ package br.iesb.ecommerce.entities.usuario
 
 import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.util.timeFormat.TimeFormatInterface
-import java.lang.RuntimeException
-import java.util.*
 
-class Usuario (
+import java.lang.RuntimeException
+import java.util.UUID
+
+class UsuarioComum (
         private var nome: String,
         private var email: String,
+        private var senha: String,
         private var endereco: String,
         timeFormat: TimeFormatInterface
         ){
@@ -23,6 +25,12 @@ class Usuario (
     fun obterFavoritos() = favoritos
     fun obterCarrinho() = carrinho
 
+    fun atualizarInformações(novoNome: String, novoEmail: String, novaSenha: String, novoEndereco: String){
+        nome = novoNome
+        email = novoEmail
+        senha = novaSenha
+        endereco = novoEndereco
+    }
 
     fun addCarrinho(idProduto: String){
         carrinho.add(idProduto)

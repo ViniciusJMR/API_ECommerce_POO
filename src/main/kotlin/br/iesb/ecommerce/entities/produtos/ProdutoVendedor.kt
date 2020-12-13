@@ -52,19 +52,6 @@ class ProdutoVendedor(
         this.freteDisponivel = freteDisponivel
     }
 
-    override fun addCaracteristica(novaCaracteristica: String){
-        if(!listaCaracteristicas.contains(novaCaracteristica))
-            listaCaracteristicas.add(novaCaracteristica)
-        else
-            throw ExistsException("Caracteristica já existente em produto")
-    }
-
-    override fun removeCaracteristica(caracteristica: String){
-        if(listaCaracteristicas.contains(caracteristica))
-            listaCaracteristicas.remove(caracteristica)
-        else
-            throw ExistsException("Caracteristica não existente em produto")
-    }
 
     override fun addEstoque(qtd: Int){
         qtdEstoque.plus(qtd)

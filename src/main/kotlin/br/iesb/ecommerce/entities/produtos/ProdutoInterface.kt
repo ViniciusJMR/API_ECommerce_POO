@@ -15,8 +15,6 @@ interface ProdutoVendedorInterface: ProdutoInterface {
                            qtdEstoque: Int,
                            freteDisponivel: FreteInterface)
 
-    fun addCaracteristica(novaCaracteristica: String)
-    fun removeCaracteristica(caracteristica: String)
     fun addEstoque(qtd: Int)
     fun venderProduto(qtd: Int)
     fun extornoProduto(qtd: Int)

@@ -14,6 +14,7 @@ class VendedorPadrão(
     private var sobre: String,
     private var email: String,
     private var telefone: Int,
+    private var endereco: String,
     timeFormat: TimeFormatInterface,
     idGenerator: IdGeneratorInterface,
 ): VendedorInterface {
@@ -30,7 +31,8 @@ class VendedorPadrão(
 
     override fun alterarInformacoes(nome: String,
                                     sobre: String,
-                                    email: String) {
+                                    email: String,
+                                    endereco: String) {
         this.nome = nome
         this.sobre = sobre
         this.email = email

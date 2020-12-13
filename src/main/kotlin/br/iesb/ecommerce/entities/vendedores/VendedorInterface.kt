@@ -9,7 +9,8 @@ interface VendedorInterface {
 
     fun alterarInformacoes(nome: String,
                            sobre: String,
-                           email: String)
+                           email: String,
+                           endereco: String)
     fun addProdutoCatalogo(novoProduto: ProdutoVendedorInterface)
     fun removeProdutoCatalogo(produto: ProdutoVendedorInterface)
     fun venderProduto(produto: ProdutoVendedorInterface, qtd: Int)
