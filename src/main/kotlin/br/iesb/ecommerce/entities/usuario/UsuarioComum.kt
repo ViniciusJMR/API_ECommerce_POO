@@ -12,7 +12,7 @@ class UsuarioComum(
         private var endereco: String,
         timeFormat: TimeFormatInterface?,
         idGenerator: IdGeneratorInterface?
-        ){
+): UsuarioInterface{
     private val id = idGenerator?.gerarId()
     private val dataCadastro = timeFormat?.obterDataHoraAtual()
     private var historicoPedidos = mutableListOf<String>()
@@ -22,15 +22,15 @@ class UsuarioComum(
 
     fun obterId() = id
     fun obterNome() = nome
-    fun obterEmail() = email
+    override fun obterEmail() = email
     fun obterEndereco() = endereco
-    fun obterFavoritos() = favoritos
+    override fun obterFavoritos() = favoritos
     fun obterCarrinho() = carrinho
 
     constructor(nome: String, email: String, endereco: String)
         :this(nome, email, endereco, null, null)
 
-    fun atualizarInformações(novoNome: String, novoEmail: String, novaSenha: String, novoEndereco: String){
+    override fun atualizarInformações(novoNome: String, novoEmail: String, novaSenha: String, novoEndereco: String){
         nome = novoNome
         email = novoEmail
         endereco = novoEndereco
@@ -63,7 +63,7 @@ class UsuarioComum(
             throw RuntimeException("Carrinho está vazio")
     }
 
-    fun addFavorito(idProduto: String){
+    override fun addFavorito(idProduto: String){
         if(!favoritos.contains(idProduto)){
             favoritos.add(idProduto)
         }
@@ -71,7 +71,7 @@ class UsuarioComum(
             throw ExistsException("Produto já exite em favoritos")
     }
 
-    fun addFavorito(idProdutos: MutableList<String>){
+    override fun addFavorito(idProdutos: MutableList<String>){
         if(!favoritos.containsAll(idProdutos)){
             favoritos.addAll(idProdutos)
         }
@@ -79,7 +79,7 @@ class UsuarioComum(
             throw ExistsException("Pelo menos um produto já existe em Favoritos")
     }
 
-    fun removeFavorito(idProduto: String){
+    override fun removeFavorito(idProduto: String){
         if(favoritos.contains(idProduto)){
             favoritos.remove(idProduto)
         }
@@ -87,7 +87,7 @@ class UsuarioComum(
             throw ExistsException("Produto não existe em Favoritos")
     }
 
-    fun removeFavorito(idProdutos: MutableList<String>){
+    override fun removeFavorito(idProdutos: MutableList<String>){
         if(favoritos.containsAll(idProdutos)){
             favoritos.removeAll(idProdutos)
         }

@@ -11,6 +11,7 @@ interface VendedorInterface {
                            sobre: String,
                            email: String,
                            endereco: String)
+    fun obterProduto(produtoId: String): ProdutoVendedorInterface
     fun addProdutoCatalogo(novoProduto: ProdutoVendedorInterface)
     fun removeProdutoCatalogo(produto: ProdutoVendedorInterface)
     fun venderProduto(produto: ProdutoVendedorInterface, qtd: Int)

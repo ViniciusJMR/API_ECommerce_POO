@@ -4,7 +4,7 @@ import br.iesb.ecommerce.services.categorias.CategoriaPadrao
 import br.iesb.ecommerce.util.key.UUIDGenerator
 
 class CategoriaFactory {
-    fun criarCatgoriaPadrao(dataCategoriaPadrao: CategoriaPadrao) =
+    fun criarCategoriaPadrao(dataCategoriaPadrao: CategoriaPadrao) =
             CategoriaPadrao(
                     dataCategoriaPadrao.obterNome(),
                     UUIDGenerator()

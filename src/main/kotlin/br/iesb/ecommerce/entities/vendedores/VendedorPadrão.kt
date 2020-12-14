@@ -59,6 +59,14 @@ class VendedorPadrão(
             throw ExistsException("Produto não está cadastrado")
     }
 
+    override fun obterProduto(produtoId: String): ProdutoVendedorInterface {
+        if(existeProduto(produtoId)){
+            return listaProdutos.elementAt(obterIndexProduto(produtoId))
+        }
+        else
+            throw ExistsException("Produto não cadastrado")
+    }
+
     override fun venderProduto(produto: ProdutoVendedorInterface, qtd: Int) {
         if(existeProduto(produto)){
             listaProdutos.elementAt(obterIndexProduto(produto))
@@ -111,11 +119,34 @@ class VendedorPadrão(
         return false
     }
 
+    fun existeProduto(produtoId: String): Boolean{
+        for(x in listaProdutos){
+            if(produtoId == x.obterId()){
+                return true
+            }
+        }
+        return false
+    }
+
     private fun obterIndexProduto(produto: ProdutoVendedorInterface): Int{
         var i = 0
 
         for(x in listaProdutos){
             if(produto.obterNome() == x.obterNome()){
+                break
+            }
+            else
+                i++
+        }
+
+        return i
+    }
+
+    private fun obterIndexProduto(produtoId:String): Int{
+        var i = 0
+
+        for(x in listaProdutos){
+            if(produtoId == x.obterId()){
                 break
             }
             else
