@@ -35,7 +35,7 @@ val sysArmazenamentoUsuario = SysArmazenamentoEmMemoriaUsuario
 fun main() {
     val port = System.getenv("PORT")?.toInt() ?: 8080
 
-    embeddedServer(Netty, 8080) {
+    embeddedServer(Netty, port) {
         routing {
             install(ContentNegotiation) {
                 gson {
