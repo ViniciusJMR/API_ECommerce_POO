@@ -1,55 +1,54 @@
 package br.iesb.ecommerce.entities.produtos
 
 import br.iesb.ecommerce.exceptions.EmptyStockException
-import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.exceptions.InvalidValueException
 import br.iesb.ecommerce.services.frete.FreteInterface
-import br.iesb.ecommerce.services.frete.FretePadrão
 import br.iesb.ecommerce.util.key.IdGeneratorInterface
-import br.iesb.ecommerce.util.key.UUIDGenerator
-import java.util.*
 
 class ProdutoVendedor(
-        idVendedor: String,
+        private val idVendedor: String,
         private var nome: String,
         private var listaCaracteristicas: MutableList<String>,
         private var descricao: String,
         private var valor: Double,
         private var qtdEstoque: Int,
-        private var freteDisponivel: FreteInterface,
-        idGenerator: IdGeneratorInterface
+        freteDisponivel: FreteInterface?,
+        idGenerator: IdGeneratorInterface?
 ): ProdutoVendedorInterface{
-    private val idProduto = idGenerator.gerarId(idVendedor)
+    private val idProduto = idGenerator?.gerarId(idVendedor)
     private var classificacao = 0.0f
+    private var taxaInicialFrete = freteDisponivel?.calcularFrete()
     private var qtdClassificacao = 0
     private var qtdVendidas = 0
 
-    //construtor apenas para pesquisa e alterar caracteristicas
-    constructor(nome:String, listaCaracteristicas: MutableList<String>)
-            : this("",nome,
-            listaCaracteristicas,
-            "",
-            0.0,
-            0,
-            FretePadrão(),
-            UUIDGenerator()
-    )
+    constructor(
+            idVendedor: String,
+            nome: String,listaCaracteristicas: MutableList<String>,
+            descricao: String,
+            valor: Double,
+            qtdEstoque: Int
+    ):this(idVendedor, nome, listaCaracteristicas,descricao,
+            valor, qtdEstoque, null, null)
 
     override fun obterNome() = nome
     override fun obterId() = idProduto
+    fun obterIdVendedor() = idVendedor
+    fun obterListaCatacteristicas() = listaCaracteristicas
+    fun obterDescricao() = descricao
+    fun obterValor() = valor
+    fun obterQtdEstoque() = qtdEstoque
 
     override fun atualizarInformacoes(nome: String,
                                 listaCaracteristicas: MutableList<String>,
                                 descricao: String,
                                 valor: Double,
-                                qtdEstoque: Int,
-                                freteDisponivel: FreteInterface) {
+                                qtdEstoque: Int
+    ) {
         this.nome = nome
         this.listaCaracteristicas = listaCaracteristicas
         this.descricao = descricao
         this.valor = valor
         this.qtdEstoque = qtdEstoque
-        this.freteDisponivel = freteDisponivel
     }
 
 

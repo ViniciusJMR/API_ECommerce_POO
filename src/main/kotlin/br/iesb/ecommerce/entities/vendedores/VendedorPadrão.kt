@@ -5,29 +5,34 @@ import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.exceptions.InvalidValueException
 import br.iesb.ecommerce.util.key.IdGeneratorInterface
 import br.iesb.ecommerce.util.timeFormat.TimeFormatInterface
-import java.util.UUID
-
 
 
 class VendedorPadrão(
-    private var nome: String,
-    private var sobre: String,
-    private var email: String,
-    private var telefone: Int,
-    private var endereco: String,
-    timeFormat: TimeFormatInterface,
-    idGenerator: IdGeneratorInterface,
+        private var nome: String,
+        private var sobre: String,
+        private var email: String,
+        private var telefone: String,
+        private var endereco: String,
+        timeFormat: TimeFormatInterface?,
+        idGenerator: IdGeneratorInterface?,
 ): VendedorInterface {
-    private val id = idGenerator.gerarId()
-    private val dataCadastro = timeFormat.obterDataHoraAtual()
+    private val id = idGenerator?.gerarId()
+    private val dataCadastro = timeFormat?.obterDataHoraAtual()
     private var listaProdutos = mutableListOf<ProdutoVendedorInterface>()
     private var qtdProdutosVendidos = 0
     private var classificacao = 0.0f
     private var qtdClassificacao = 0
 
+    constructor(nome: String, sobre: String, email: String, telefone: String, endereco: String)
+    :this(nome, sobre, email, telefone, endereco, null, null)
+
     override fun obterNome() = nome
     override fun obterId() = id
     override fun obterLista() = listaProdutos
+    fun obterSobre() = sobre
+    fun obterEmail() = email
+    fun obterTelefone() = telefone
+    fun obterEndereco() = endereco
 
     override fun alterarInformacoes(nome: String,
                                     sobre: String,

@@ -4,20 +4,25 @@ import br.iesb.ecommerce.util.key.IdGeneratorInterface
 
 class OfertaDescontoPorcentagem(
         private val idProduto: String,
-        private val valorSemDesconto: Float,
+        private val valorSemDesconto: Double,
         private var desconto: Int,
         private var dataFimDaOferta: String,
-        idGenerator: IdGeneratorInterface
+        idGenerator: IdGeneratorInterface?
 ): OfertaInterface {
-    private val id = idGenerator.gerarId(idProduto)
+    private val id = idGenerator?.gerarId(idProduto)
+
+    constructor(idProduto: String, valorSemDesconto: Double, desconto: Int, dataFimDaOferta: String)
+        :this(idProduto, valorSemDesconto, desconto, dataFimDaOferta, null)
 
     override fun obterId() = id
     override fun obterProdutoId() = idProduto
-    fun obterDesconto() = desconto
-    fun obterDataFimDaOferta() = dataFimDaOferta
+    override fun obterDesconto() = desconto
+    fun obterValorSemDesconto() = valorSemDesconto
+    override fun obterValorComDesconto() = valorSemDesconto - (valorSemDesconto.times(desconto)/100.0)
+    override fun obterDataFimDaOferta() = dataFimDaOferta
 
 
-    override fun atualizarOferta(oferta: OfertaDescontoPorcentagem) {
+    override fun atualizarOferta(oferta: OfertaInterface) {
         desconto = oferta.obterDesconto()
         dataFimDaOferta = oferta.obterDataFimDaOferta()
     }

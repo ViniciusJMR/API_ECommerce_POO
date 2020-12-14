@@ -1,34 +1,38 @@
 package br.iesb.ecommerce.entities.usuario
 
 import br.iesb.ecommerce.exceptions.ExistsException
+import br.iesb.ecommerce.util.key.IdGeneratorInterface
 import br.iesb.ecommerce.util.timeFormat.TimeFormatInterface
 
 import java.lang.RuntimeException
-import java.util.UUID
 
-class UsuarioComum (
+class UsuarioComum(
         private var nome: String,
         private var email: String,
-        private var senha: String,
         private var endereco: String,
-        timeFormat: TimeFormatInterface
+        timeFormat: TimeFormatInterface?,
+        idGenerator: IdGeneratorInterface?
         ){
-    private val id = UUID.randomUUID().toString()
-    private val dataCadastro = timeFormat.obterDataHoraAtual()
+    private val id = idGenerator?.gerarId()
+    private val dataCadastro = timeFormat?.obterDataHoraAtual()
     private var historicoPedidos = mutableListOf<String>()
     private var carrinho = mutableListOf<String>()
     private var favoritos = mutableListOf<String>()
     //private var historicoComentarios
 
     fun obterId() = id
+    fun obterNome() = nome
     fun obterEmail() = email
+    fun obterEndereco() = endereco
     fun obterFavoritos() = favoritos
     fun obterCarrinho() = carrinho
+
+    constructor(nome: String, email: String, endereco: String)
+        :this(nome, email, endereco, null, null)
 
     fun atualizarInformações(novoNome: String, novoEmail: String, novaSenha: String, novoEndereco: String){
         nome = novoNome
         email = novoEmail
-        senha = novaSenha
         endereco = novoEndereco
     }
 

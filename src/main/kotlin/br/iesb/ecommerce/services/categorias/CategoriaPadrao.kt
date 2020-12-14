@@ -5,14 +5,16 @@ import br.iesb.ecommerce.util.key.IdGeneratorInterface
 
 class CategoriaPadrao(
         private var nome:String,
-        idGenerator: IdGeneratorInterface
+        idGenerator: IdGeneratorInterface?
 ): CategoriaInterface{
-    private val id = idGenerator.gerarId()
+    private val id = idGenerator?.gerarId()
     private var produtos = mutableListOf<String>()
 
     override fun obterId() = id
     override fun obterNome() = nome
     override fun obterProdutos() = produtos
+
+    constructor(nome: String):this(nome, null)
 
     override fun atualizarCategoria(CategoriaAtualizada: CategoriaInterface) {
         nome = CategoriaAtualizada.obterNome()

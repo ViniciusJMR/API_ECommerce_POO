@@ -47,7 +47,7 @@ class SysArmazenamentoEmMemoriaOferta {
             var i = 0
 
             for(x in ofertas){
-                if(oferta.obterId() == x.obterId())
+                if(oferta.obterProdutoId() == x.obterProdutoId())
                     break
                 else
                     i++

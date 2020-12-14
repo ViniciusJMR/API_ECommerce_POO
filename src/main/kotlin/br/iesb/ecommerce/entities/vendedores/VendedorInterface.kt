@@ -4,7 +4,7 @@ import br.iesb.ecommerce.entities.produtos.ProdutoVendedorInterface
 
 interface VendedorInterface {
     fun obterNome(): String
-    fun obterId(): String
+    fun obterId(): String?
     fun obterLista(): MutableList<ProdutoVendedorInterface>
 
     fun alterarInformacoes(nome: String,
