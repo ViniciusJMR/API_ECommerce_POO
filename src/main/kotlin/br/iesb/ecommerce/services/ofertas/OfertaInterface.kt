@@ -1,11 +1,9 @@
-package br.iesb.ecommerce.entities.ofertas
+package br.iesb.ecommerce.services.ofertas
 
 interface OfertaInterface {
     fun obterId(): String?
     fun obterProdutoId(): String
     fun obterDesconto(): Int
-    fun obterValorComDesconto(): Double
+    fun obterValorSemDesconto(): Double
     fun obterDataFimDaOferta(): String
-
-    fun atualizarOferta(oferta: OfertaInterface)
 }

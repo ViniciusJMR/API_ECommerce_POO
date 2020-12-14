@@ -1,35 +1,45 @@
 package br.iesb.ecommerce.storage
 
-import br.iesb.ecommerce.entities.produtos.ProdutoInterface
-import br.iesb.ecommerce.entities.vendedores.VendedorInterface
+import br.iesb.ecommerce.entities.produtos.ProdutoVendedorInterface
+import br.iesb.ecommerce.entities.vendedores.VendedorPadraoInterface
 import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.util.key.UUIDGenerator
 
 class SysArmazenamentoEmMemoriaVendedor {
     companion object :ArmazenamentoVendedor{
-        private var vendedores = mutableListOf<VendedorInterface>()
+        private var vendedores = mutableListOf<VendedorPadraoInterface>()
 
         override fun obterVendedores() = vendedores
 
-        override fun obterVendedor(vendedor: String): VendedorInterface{
-            if(existeVendedor(vendedor)){
-                return vendedores.elementAt(obterIndexVendedor(vendedor))
+        override fun obterVendedor(vendedorId: String): VendedorPadraoInterface{
+            if(existeVendedor(vendedorId)){
+                return vendedores[obterIndexVendedor(vendedorId)]
             }
             else
                 throw ExistsException("Vendedor não cadastrado")
         }
 
-        override fun obterProduto(produtoId: String): ProdutoInterface {
+        override fun obterProdutos(): MutableList<ProdutoVendedorInterface>{
+            val produtos = mutableListOf<ProdutoVendedorInterface>()
+
+            for(x in vendedores){
+                produtos.addAll(x.obterLista())
+            }
+
+            return produtos
+        }
+
+        override fun obterProduto(produtoId: String): ProdutoVendedorInterface {
             val idVendedor = UUIDGenerator().obterPrimeiraId(produtoId)
             try{
-                return obterVendedor(idVendedor).obterProduto((produtoId))
+                return obterVendedor(idVendedor).obterProduto(produtoId)
             }
             catch(e: ExistsException){
-                throw ExistsException(e.message!!)
+                throw ExistsException("${e.message}")
             }
         }
 
-        override fun addVendedor(novoVendedor: VendedorInterface){
+        override fun addVendedor(novoVendedor: VendedorPadraoInterface){
             if(!existeVendedor(novoVendedor)){
                 vendedores.add(novoVendedor)
             }
@@ -37,13 +47,15 @@ class SysArmazenamentoEmMemoriaVendedor {
                 throw ExistsException("Nome de Vendedor já cadastrado")
         }
 
-        override fun removerVendedor(vendedor: VendedorInterface){
-            if(existeVendedor(vendedor)){
-                vendedores.removeAt(obterIndexVendedor(vendedor))
+        override fun removerVendedor(vendedorId: VendedorPadraoInterface){
+            if(vendedores.contains(vendedorId)){
+                vendedores.remove(vendedorId)
             }
+            else
+                throw ExistsException("Vendedor não cadastrado")
         }
 
-        private fun existeVendedor(vendedor: VendedorInterface): Boolean{
+        private fun existeVendedor(vendedor: VendedorPadraoInterface): Boolean{
             for(x in vendedores){
                 if(vendedor.obterNome() == x.obterNome()){
                     return true
@@ -52,7 +64,7 @@ class SysArmazenamentoEmMemoriaVendedor {
             return false
         }
 
-        private fun existeVendedor(vendedorId: String):Boolean{
+        fun existeVendedor(vendedorId: String):Boolean{
             for(x in vendedores){
                 if(vendedorId == x.obterId()){
                     return true
@@ -61,7 +73,7 @@ class SysArmazenamentoEmMemoriaVendedor {
             return false
         }
 
-        private fun obterIndexVendedor(vendedor: VendedorInterface): Int{
+        private fun obterIndexVendedor(vendedor: VendedorPadraoInterface): Int{
             var i = 0
 
             for(x in vendedores){

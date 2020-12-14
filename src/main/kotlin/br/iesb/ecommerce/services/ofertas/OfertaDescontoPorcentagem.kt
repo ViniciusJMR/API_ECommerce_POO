@@ -1,4 +1,4 @@
-package br.iesb.ecommerce.entities.ofertas
+package br.iesb.ecommerce.services.ofertas
 
 import br.iesb.ecommerce.util.key.IdGeneratorInterface
 
@@ -8,8 +8,9 @@ class OfertaDescontoPorcentagem(
         private var desconto: Int,
         private var dataFimDaOferta: String,
         idGenerator: IdGeneratorInterface?
-): OfertaInterface {
+): OfertaDescontoInterface {
     private val id = idGenerator?.gerarId(idProduto)
+    private val valorComDesconto = valorSemDesconto - (valorSemDesconto.times(desconto)/100.0)
 
     constructor(idProduto: String, valorSemDesconto: Double, desconto: Int, dataFimDaOferta: String)
         :this(idProduto, valorSemDesconto, desconto, dataFimDaOferta, null)
@@ -17,8 +18,8 @@ class OfertaDescontoPorcentagem(
     override fun obterId() = id
     override fun obterProdutoId() = idProduto
     override fun obterDesconto() = desconto
-    fun obterValorSemDesconto() = valorSemDesconto
-    override fun obterValorComDesconto() = valorSemDesconto - (valorSemDesconto.times(desconto)/100.0)
+    override fun obterValorSemDesconto() = valorSemDesconto
+    override fun obterValorComDesconto() = valorComDesconto
     override fun obterDataFimDaOferta() = dataFimDaOferta
 
 

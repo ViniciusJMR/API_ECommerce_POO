@@ -33,7 +33,7 @@ class ProdutoVendedor(
     override fun obterNome() = nome
     override fun obterId() = idProduto
     fun obterIdVendedor() = idVendedor
-    fun obterListaCatacteristicas() = listaCaracteristicas
+    fun obterListaCaracteristicas() = listaCaracteristicas
     fun obterDescricao() = descricao
     fun obterValor() = valor
     fun obterQtdEstoque() = qtdEstoque

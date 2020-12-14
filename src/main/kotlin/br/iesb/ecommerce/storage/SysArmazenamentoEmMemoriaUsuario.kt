@@ -9,9 +9,9 @@ class SysArmazenamentoEmMemoriaUsuario {
 
         override fun obterUsuarios() = usuarios
 
-        override fun obterUsuario(usuario: UsuarioInterface): UsuarioInterface {
-            if(existeUsuario(usuario)){
-                return usuarios.elementAt(obterIndexUsuario(usuario))
+        override fun obterUsuario(usuarioId: String): UsuarioInterface {
+            if(existeUsuario(usuarioId)){
+                return usuarios[obterIndexUsuario(usuarioId)]
             }
             else
                 throw ExistsException("Usuário não cadastrado")
@@ -25,17 +25,27 @@ class SysArmazenamentoEmMemoriaUsuario {
                 throw ExistsException("Email de usuário já cadastrado")
         }
 
-        override fun removerUsuario(usuario: UsuarioInterface) {
-            if(existeUsuario(usuario)){
-                usuarios.removeAt(obterIndexUsuario(usuario))
-            }
-            else
-                throw ExistsException("Usuario não cadastrado")
-        }
+       override fun removerUsuario(usuario: UsuarioInterface){
+           if(usuarios.contains(usuario))
+               usuarios.remove(usuario)
+           else
+               throw ExistsException("Usuario não cadastrado")
+       }
+
 
         private fun existeUsuario(usuario: UsuarioInterface): Boolean {
             for (x in usuarios) {
                 if (usuario.obterEmail() == x.obterEmail()) {
+                    return true
+                }
+            }
+
+            return false
+        }
+
+        private fun existeUsuario(usuarioId: String): Boolean {
+            for (x in usuarios) {
+                if (usuarioId == x.obterId()) {
                     return true
                 }
             }
@@ -48,6 +58,18 @@ class SysArmazenamentoEmMemoriaUsuario {
 
             for (x in usuarios) {
                 if (usuario.obterEmail() == x.obterEmail()) {
+                    break
+                } else
+                    i++
+            }
+            return i
+        }
+
+        private fun obterIndexUsuario(usuarioId: String): Int {
+            var i = 0
+
+            for (x in usuarios) {
+                if (usuarioId == x.obterId()) {
                     break
                 } else
                     i++

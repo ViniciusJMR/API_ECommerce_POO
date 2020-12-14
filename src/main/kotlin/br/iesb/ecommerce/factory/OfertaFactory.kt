@@ -1,6 +1,6 @@
 package br.iesb.ecommerce.factory
 
-import br.iesb.ecommerce.entities.ofertas.OfertaDescontoPorcentagem
+import br.iesb.ecommerce.services.ofertas.OfertaDescontoPorcentagem
 import br.iesb.ecommerce.util.key.UUIDGenerator
 
 class OfertaFactory {

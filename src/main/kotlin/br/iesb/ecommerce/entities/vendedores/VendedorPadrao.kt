@@ -7,7 +7,7 @@ import br.iesb.ecommerce.util.key.IdGeneratorInterface
 import br.iesb.ecommerce.util.timeFormat.TimeFormatInterface
 
 
-class VendedorPadrão(
+class VendedorPadrao(
         private var nome: String,
         private var sobre: String,
         private var email: String,
@@ -15,7 +15,7 @@ class VendedorPadrão(
         private var endereco: String,
         timeFormat: TimeFormatInterface?,
         idGenerator: IdGeneratorInterface?,
-): VendedorInterface {
+): VendedorPadraoInterface {
     private val id = idGenerator?.gerarId()
     private val dataCadastro = timeFormat?.obterDataHoraAtual()
     private var listaProdutos = mutableListOf<ProdutoVendedorInterface>()
@@ -29,10 +29,10 @@ class VendedorPadrão(
     override fun obterNome() = nome
     override fun obterId() = id
     override fun obterLista() = listaProdutos
-    fun obterSobre() = sobre
-    fun obterEmail() = email
-    fun obterTelefone() = telefone
-    fun obterEndereco() = endereco
+    override fun obterSobre() = sobre
+    override fun obterEmail() = email
+    override fun obterTelefone() = telefone
+    override fun obterEndereco() = endereco
 
     override fun alterarInformacoes(nome: String,
                                     sobre: String,
@@ -51,9 +51,9 @@ class VendedorPadrão(
             throw ExistsException("Nome de produto já está cadastrado")
     }
 
-    override fun removeProdutoCatalogo(produto: ProdutoVendedorInterface){
-        if(existeProduto(produto)){
-            listaProdutos.removeAt(obterIndexProduto(produto))
+    override fun removeProdutoCatalogo(produtoId: String){
+        if(existeProduto(produtoId)){
+            listaProdutos.removeAt(obterIndexProduto(produtoId))
         }
         else
             throw ExistsException("Produto não está cadastrado")
@@ -61,7 +61,7 @@ class VendedorPadrão(
 
     override fun obterProduto(produtoId: String): ProdutoVendedorInterface {
         if(existeProduto(produtoId)){
-            return listaProdutos.elementAt(obterIndexProduto(produtoId))
+            return listaProdutos[obterIndexProduto(produtoId)]
         }
         else
             throw ExistsException("Produto não cadastrado")
@@ -69,7 +69,7 @@ class VendedorPadrão(
 
     override fun venderProduto(produto: ProdutoVendedorInterface, qtd: Int) {
         if(existeProduto(produto)){
-            listaProdutos.elementAt(obterIndexProduto(produto))
+            listaProdutos[obterIndexProduto(produto)]
                     .venderProduto(qtd)
             qtdProdutosVendidos++
         }

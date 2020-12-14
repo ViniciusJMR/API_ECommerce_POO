@@ -6,6 +6,6 @@ class UUIDGenerator(): IdGeneratorInterface {
     override fun gerarId() = UUID.randomUUID().toString()
     override fun gerarId(id: String) = id + "-" + UUID.randomUUID().toString()
 
-    fun obterPrimeiraId(id: String) = id.drop(37)
+    fun obterPrimeiraId(id: String) = id.dropLast(37)
 
 }

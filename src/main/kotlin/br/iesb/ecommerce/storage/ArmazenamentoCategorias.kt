@@ -1,11 +1,12 @@
 package br.iesb.ecommerce.storage
 
 import br.iesb.ecommerce.services.categorias.CategoriaInterface
+import br.iesb.ecommerce.services.categorias.CategoriaPadraoInterface
 
 interface ArmazenamentoCategorias {
-    fun obterCategorias(): MutableList<CategoriaInterface>
-    fun obterCategoria(categoria: CategoriaInterface): CategoriaInterface
+    fun obterCategorias(): MutableList<CategoriaPadraoInterface>
+    fun obterCategoria(categoria: String): CategoriaPadraoInterface
 
-    fun addCategoria(novaCategoria: CategoriaInterface)
+    fun addCategoria(novaCategoria: CategoriaPadraoInterface)
     fun removeCategoria(categoria: CategoriaInterface)
 }

@@ -13,14 +13,15 @@ class ProdutoFactory{
                     dataProduto.obterNome(),
                     dataProduto.obterListaCaracteristicas(),
                     dataProduto.obterDescricao(),
-                    dataProduto.obterValor()
+                    dataProduto.obterValor(),
+                    dataProduto.obterQtdEstoque()
             )
 
     fun criarProdutoVendedorFretePadrao(dataProdutoVendedor: ProdutoVendedor) =
             ProdutoVendedor(
                     dataProdutoVendedor.obterIdVendedor(),
                     dataProdutoVendedor.obterNome(),
-                    dataProdutoVendedor.obterListaCatacteristicas(),
+                    dataProdutoVendedor.obterListaCaracteristicas(),
                     dataProdutoVendedor.obterDescricao(),
                     dataProdutoVendedor.obterValor(),
                     dataProdutoVendedor.obterQtdEstoque(),

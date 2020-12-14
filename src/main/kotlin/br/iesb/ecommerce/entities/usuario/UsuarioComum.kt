@@ -12,7 +12,7 @@ class UsuarioComum(
         private var endereco: String,
         timeFormat: TimeFormatInterface?,
         idGenerator: IdGeneratorInterface?
-): UsuarioInterface{
+): UsuarioComumInterface{
     private val id = idGenerator?.gerarId()
     private val dataCadastro = timeFormat?.obterDataHoraAtual()
     private var historicoPedidos = mutableListOf<String>()
@@ -20,17 +20,17 @@ class UsuarioComum(
     private var favoritos = mutableListOf<String>()
     //private var historicoComentarios
 
-    fun obterId() = id
-    fun obterNome() = nome
+    override fun obterId() = id
+    override fun obterNome() = nome
     override fun obterEmail() = email
-    fun obterEndereco() = endereco
+    override fun obterEndereco() = endereco
     override fun obterFavoritos() = favoritos
     fun obterCarrinho() = carrinho
 
     constructor(nome: String, email: String, endereco: String)
         :this(nome, email, endereco, null, null)
 
-    override fun atualizarInformações(novoNome: String, novoEmail: String, novaSenha: String, novoEndereco: String){
+    override fun atualizarInformações(novoNome: String, novoEmail: String, novoEndereco: String){
         nome = novoNome
         email = novoEmail
         endereco = novoEndereco
