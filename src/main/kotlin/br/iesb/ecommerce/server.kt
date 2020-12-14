@@ -12,6 +12,7 @@ import br.iesb.ecommerce.management.GerenciamentoCadastro
 import br.iesb.ecommerce.management.GerenciamentoRemocao
 import br.iesb.ecommerce.services.categorias.Categoria
 import br.iesb.ecommerce.services.categorias.CategoriaPadrao
+import br.iesb.ecommerce.services.favoritos.FavoritoPadrao
 import br.iesb.ecommerce.storage.SysArmazenamentoEmMemoriaCategorias
 import br.iesb.ecommerce.storage.SysArmazenamentoEmMemoriaOferta
 import br.iesb.ecommerce.storage.SysArmazenamentoEmMemoriaUsuario
@@ -93,6 +94,44 @@ fun main() {
                 }
                 catch(e: ExistsException){
                     call.respond("${e.message}")
+                }
+                catch(e: Exception){
+                    call.respond("Erro inesperado: ${e.message}")
+                }
+            }
+            get("/usuario/favoritos/listar"){
+                val usuario = call.receive<UsuarioComum>()
+
+                call.respond(sysArmazenamentoUsuario.obterUsuario(usuario.obterId()!!).obterFavoritos())
+            }
+                post("/usuario/favoritos/adicionar"){
+                val favorito = call.receive<FavoritoPadrao>()
+
+                try{
+                    GerenciamentoCadastro().cadastrarFavoritoPadraoEmUsuario(favorito,
+                            sysArmazenamentoUsuario)
+                    call.respond("Favorito adicionado com sucesso")
+                }
+                catch(e: ExistsException){
+                    call.respond("${e.message}")
+                }
+                catch(e: Exception){
+                    call.respond("Erro inesperado: ${e.message}")
+                }
+
+            }
+            delete("/usuario/favoritos/deletar"){
+                val favorito = call.receive<FavoritoPadrao>()
+
+                try{
+                    GerenciamentoRemocao().excluirFavoritoEmUsuario(favorito,
+                            sysArmazenamentoUsuario)
+                }
+                catch (e: ExistsException){
+                    call.respond("${e.message}")
+                }
+                catch(e: Exception){
+                    call.respond("Erro inesperado: ${e.message}")
                 }
             }
             get("/vendedor/listar"){
@@ -208,6 +247,36 @@ fun main() {
                 try{
                     GerenciamentoCadastro().cadastrarCategoriaPadrao(novaCategoria, sysArmazenamentoCategorias)
                     call.respond("Categoria cadastrada com sucesso")
+                }
+                catch(e: ExistsException){
+                    call.respond("Error: ${e.message}")
+                }
+                catch(e: Exception){
+                    call.respond("Erro inesperado: $e.message")
+                }
+            }
+            post("/categoria/adicionar_produto"){
+                val categoriaComProdutos = call.receive<Categoria>()
+
+                try{
+                    GerenciamentoAlteracao().addProdutoEmCategoria(categoriaComProdutos,
+                                                                sysArmazenamentoCategorias)
+                    call.respond("Produtos adicionado em Categoria com sucesso")
+                }
+                catch(e: ExistsException){
+                    call.respond("Error: ${e.message}")
+                }
+                catch(e: Exception){
+                    call.respond("Erro inesperado: $e.message")
+                }
+            }
+            delete("/categoria/deletar_produtos"){
+                val categoriaComProdutos = call.receive<Categoria>()
+
+                try{
+                    GerenciamentoAlteracao().removerProdutoEmCategoria(categoriaComProdutos,
+                                                sysArmazenamentoCategorias)
+                    call.respond("Produtos removidos de Categoria com sucesso")
                 }
                 catch(e: ExistsException){
                     call.respond("Error: ${e.message}")

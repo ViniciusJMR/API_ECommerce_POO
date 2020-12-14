@@ -1,11 +1,12 @@
 package br.iesb.ecommerce.storage
 
+import br.iesb.ecommerce.entities.usuario.UsuarioComumInterface
 import br.iesb.ecommerce.entities.usuario.UsuarioInterface
 
 interface ArmazenamentoUsuario {
-    fun obterUsuarios(): MutableList<UsuarioInterface>
-    fun obterUsuario(usuario: String): UsuarioInterface
+    fun obterUsuarios(): MutableList<UsuarioComumInterface>
+    fun obterUsuario(usuario: String): UsuarioComumInterface
 
-    fun addUsuario(novoUsuario: UsuarioInterface)
-    fun removerUsuario(usuario: UsuarioInterface)
+    fun addUsuario(novoUsuario: UsuarioComumInterface)
+    fun removerUsuario(usuario: UsuarioComumInterface)
 }

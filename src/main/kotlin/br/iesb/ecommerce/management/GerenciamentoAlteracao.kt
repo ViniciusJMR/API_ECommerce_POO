@@ -1,11 +1,12 @@
 package br.iesb.ecommerce.management
 
-import br.iesb.ecommerce.services.ofertas.OfertaDescontoInterface
 import br.iesb.ecommerce.entities.produtos.Produto
 import br.iesb.ecommerce.entities.usuario.Usuario
 import br.iesb.ecommerce.entities.vendedores.VendedorInterface
 import br.iesb.ecommerce.exceptions.ExistsException
+import br.iesb.ecommerce.services.categorias.CategoriaInterface
 import br.iesb.ecommerce.services.categorias.CategoriaPadraoInterface
+import br.iesb.ecommerce.services.favoritos.FavoritoPadrao
 import br.iesb.ecommerce.services.ofertas.OfertaInterface
 import br.iesb.ecommerce.storage.*
 
@@ -32,7 +33,7 @@ class GerenciamentoAlteracao {
                 vendedorAtualizado.obterEndereco())
         }
         catch(e: ExistsException){
-            throw ExistsException("Não foi possível atualizar o Vendedor: ${e.message} ")
+            throw ExistsException("Não foi possível atualizar o Vendedor: ${e.message}")
         }
     }
 
@@ -71,6 +72,52 @@ class GerenciamentoAlteracao {
         }
         catch(e: ExistsException){
             throw ExistsException("Erro ao atualizar Categoria: ${e.message}")
+        }
+    }
+
+    fun addProdutoEmCategoria(categoriaComProdutos: CategoriaInterface,
+                            sysArmazenamento: ArmazenamentoCategorias){
+        try{
+            val categoria = sysArmazenamento.obterCategoria(categoriaComProdutos.obterId()!!)
+
+            categoria.addProduto(categoriaComProdutos.obterProdutos())
+        }
+        catch (e: ExistsException){
+            throw ExistsException("Erro ao adicionar Produto Em Categoria: ${e.message}")
+        }
+    }
+
+    fun removerProdutoEmCategoria(categoriaComProdutos: CategoriaInterface,
+                                sysArmazenamento: ArmazenamentoCategorias){
+        try{
+            val categoria = sysArmazenamento.obterCategoria(categoriaComProdutos.obterId()!!)
+
+            categoria.removerProduto(categoriaComProdutos.obterProdutos())
+        }
+        catch(e: ExistsException){
+            throw ExistsException("Erro ao remover Produto Em Categoria: ${e.message}")
+        }
+    }
+
+    fun addFavoritoEmUsuario(novosFavoritos: FavoritoPadrao, sysArmazenamento: ArmazenamentoUsuario){
+        try{
+            val usuario = sysArmazenamento.obterUsuario(novosFavoritos.obterIdUsuario())
+
+            usuario.addFavorito(novosFavoritos.obterFavoritos())
+        }
+        catch (e: ExistsException){
+            throw ExistsException("Erro ao adicionar Favorito em Usuario")
+        }
+    }
+
+    fun removerFavoritoEmUsuario(novosFavoritos: FavoritoPadrao, sysArmazenamento: ArmazenamentoUsuario){
+        try{
+            val usuario = sysArmazenamento.obterUsuario(novosFavoritos.obterIdUsuario())
+
+            usuario.removeFavorito(novosFavoritos.obterFavoritos())
+        }
+        catch (e: ExistsException){
+            throw ExistsException("Erro ao adicionar Favorito em Usuario")
         }
     }
 }

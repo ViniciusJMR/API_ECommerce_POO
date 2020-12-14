@@ -7,6 +7,7 @@ import br.iesb.ecommerce.entities.usuario.UsuarioInterface
 import br.iesb.ecommerce.entities.vendedores.VendedorInterface
 import br.iesb.ecommerce.exceptions.ExistsException
 import br.iesb.ecommerce.services.categorias.CategoriaInterface
+import br.iesb.ecommerce.services.favoritos.FavoritoInterface
 import br.iesb.ecommerce.storage.ArmazenamentoCategorias
 import br.iesb.ecommerce.storage.ArmazenamentoOfertas
 import br.iesb.ecommerce.storage.ArmazenamentoUsuario
@@ -65,6 +66,17 @@ class GerenciamentoRemocao {
         }
         catch(e: ExistsException){
             throw ExistsException("Erro ao excluir Categoria: ${e.message}")
+        }
+    }
+
+    fun excluirFavoritoEmUsuario(favorito: FavoritoInterface, sysArmazenamento: ArmazenamentoUsuario){
+        try{
+            val usuario = sysArmazenamento.obterUsuario(favorito.obterIdUsuario())
+
+            usuario.removeFavorito(favorito.obterFavoritos())
+        }
+        catch(e: ExistsException){
+            throw ExistsException("Erro ao excluir Favorito em Usuario: ${e.message}")
         }
     }
 }

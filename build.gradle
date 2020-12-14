@@ -30,3 +30,7 @@ version '0.5-PREALPHA'
 
 mainClassName = "br.iesb.ecommerce.ServerKt"
 
+task stage{
+    dependsOn installDist
+}
+
